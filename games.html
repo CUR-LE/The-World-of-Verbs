@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - The World of Verbs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #fdfaef 0%, #fff3f7 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .btn { font-family: 'Fredoka', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; flex: 1; }
+        .top-section { background-color: #fff6d6; border-bottom: 3px solid #f5e0a0; padding-bottom: 40px; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; color: #fff; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.3rem; text-decoration: none; background-color: #e53966; padding: 10px 20px; border-radius: 16px; box-shadow: 0 4px 0 #b5224b; line-height: 1.1; }
+        .logo-area img { width: 40px; height: 40px; object-fit: contain; background: white; border-radius: 8px; padding: 2px; }
+        .nav-links { display: flex; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 2px solid #f0e6fa; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 700; font-size: 0.95rem; padding: 8px 16px; border-radius: 30px; transition: 0.2s; }
+        .nav-links a.active { background: #f5a623; color: white; }
+        .nav-links a:hover:not(.active) { background: #fff6d6; color: #f5a623; }
+        .page-hero { text-align: center; padding: 30px 0 10px; }
+        .page-hero .welcome { color: #f5a623; font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
+        .page-hero h1 { font-size: 3rem; color: #f5a623; margin-bottom: 10px; }
+        .page-hero p { font-size: 1.05rem; color: #666; font-weight: 600; max-width: 600px; margin: 0 auto; }
+        .main-content { padding-top: 40px; padding-bottom: 60px; }
+        .intro-block { background: #fff; border-radius: 24px; padding: 30px; margin-bottom: 30px; border: 2px solid #fdf0c8; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .intro-block h2 { color: #c98617; font-size: 1.6rem; margin-bottom: 12px; }
+        .intro-block ol { margin: 10px 0 5px 25px; color: #444; }
+        .intro-block li { margin-bottom: 6px; }
+        .game-area { background: #fff; border-radius: 24px; padding: 30px; border: 2px solid #fdf0c8; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .progress-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .progress-text { font-family: 'Fredoka', sans-serif; font-weight: 700; color: #f5a623; font-size: 1.1rem; }
+        .progress-track { flex: 1; height: 14px; background: #fdf0c8; border-radius: 10px; overflow: hidden; min-width: 150px; }
+        .progress-fill { height: 100%; background: #f5a623; border-radius: 10px; transition: width 0.3s; width: 0%; }
+        .score-pill { background: #fff6d6; color: #c98617; font-family: 'Fredoka', sans-serif; font-weight: 700; padding: 8px 18px; border-radius: 20px; }
+        .question-card h3 { font-size: 1.4rem; color: #7b4b9e; margin-bottom: 8px; }
+        .sentence { font-size: 1.15rem; font-weight: 700; color: #333; background: #fffbf0; padding: 15px 20px; border-radius: 14px; border-left: 5px solid #f5a623; margin-bottom: 22px; }
+        .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .option-btn { padding: 16px; border-radius: 16px; border: 2px solid #fdf0c8; background: #fff; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.05rem; color: #555; cursor: pointer; transition: 0.15s; text-align: left; }
+        .option-btn:hover:not(:disabled) { background: #fff6d6; border-color: #f5a623; color: #c98617; transform: translateY(-2px); }
+        .option-btn:disabled { cursor: default; }
+        .option-btn.correct { background: #e4f5e0; border-color: #5f9e3e; color: #43782a; }
+        .option-btn.wrong { background: #ffe0e0; border-color: #e53966; color: #b5224b; }
+        .feedback { margin-top: 20px; padding: 16px 20px; border-radius: 14px; font-weight: 700; display: none; }
+        .feedback.show { display: block; }
+        .feedback.good { background: #e4f5e0; color: #43782a; }
+        .feedback.bad { background: #ffe0e0; color: #b5224b; }
+        .next-btn { margin-top: 20px; display: none; }
+        .next-btn.show { display: inline-flex; }
+        .btn-primary { display: inline-flex; align-items: center; background: #f5a623; color: white; text-decoration: none; padding: 15px 35px; border-radius: 40px; font-size: 1.05rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 6px 0 #c98617; transition: 0.15s; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(2px); box-shadow: 0 4px 0 #c98617; }
+        .result-card { text-align: center; display: none; }
+        .result-card.show { display: block; }
+        .result-emoji { font-size: 4rem; margin-bottom: 10px; }
+        .result-card h2 { font-size: 2rem; color: #f5a623; margin-bottom: 10px; }
+        .result-card p { font-size: 1.15rem; font-weight: 700; color: #555; margin-bottom: 25px; }
+        .result-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-secondary { display: inline-flex; align-items: center; background: #fff; color: #7b4b9e; text-decoration: none; padding: 14px 30px; border-radius: 40px; font-size: 1rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 4px 0 #e0d5f0; border: 2px solid #f0e6fa; cursor: pointer; transition: 0.15s; }
+        .btn-secondary:hover { background: #f0e6fa; }
+        footer { background: #6a4c9c; color: white; text-align: center; padding: 20px; border-radius: 30px 30px 0 0; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .options { grid-template-columns: 1fr; }
+            .intro-block, .game-area { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="container">
+            <header class="top-nav">
+                <a href="index.html" class="logo-area">
+                    <img src="images/logo-book.png" alt="Book Icon" onerror="this.style.display='none'">
+                    <div>The World of<br>VERBS</div>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="games.html" class="active">Games</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="activities.html">Activities</a>
+                </nav>
+            </header>
+            <div class="page-hero">
+                <div class="welcome">Verb Challenge</div>
+                <h1>Guess the Action!</h1>
+                <p>Look at the situation, read the question, and choose the correct answer. Are you ready to become a Verb Master?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-content">
+        <!-- Instructions -->
+        <div class="intro-block">
+            <h2>How to Play</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Choose the correct verb from the four choices.</li>
+                <li>Each correct answer earns one point.</li>
+                <li>Read the feedback after answering.</li>
+                <li>Complete all five questions to finish the game.</li>
+            </ol>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <div class="progress-bar">
+                <span class="progress-text" id="progressText">Question 1 of 5</span>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+                <span class="score-pill" id="scorePill">Score: 0</span>
+            </div>
+
+            <div id="gameContent">
+                <div class="question-card">
+                    <h3 id="qTitle">Running</h3>
+                    <div class="sentence" id="qSentence"></div>
+                    <div class="options" id="optionsContainer"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <button class="btn-primary next-btn" id="nextBtn">Next Question</button>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="result-card" id="resultCard">
+                <div class="result-emoji" id="resultEmoji"></div>
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="restartGame()">Play Again</button>
+                    <a href="index.html" class="btn-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Small words. Big actions. Keep learning!</footer>
+
+    <script>
+        const questions = [
+            {
+                title: "Running",
+                sentence: "The boy runs in the park.",
+                options: ["Boy", "Park", "Runs", "The"],
+                correct: 2,
+                feedback: "Runs is the verb because it tells us what the boy is doing."
+            },
+            {
+                title: "Eating",
+                sentence: "Maria eats an apple.",
+                options: ["Maria", "Eats", "Apple", "An"],
+                correct: 1,
+                feedback: "Eats is the action word because it tells us what Maria is doing."
+            },
+            {
+                title: "Singing",
+                sentence: "The girl sings a beautiful song.",
+                options: ["Beautiful", "Girl", "Song", "Sings"],
+                correct: 3,
+                feedback: "Sings is the verb because it tells us the action of the girl."
+            },
+            {
+                title: "Writing",
+                sentence: "John writes in his notebook.",
+                options: ["John", "Notebook", "Writes", "His"],
+                correct: 2,
+                feedback: "Writes is the verb because it describes what John is doing."
+            },
+            {
+                title: "Sleeping",
+                sentence: "The baby sleeps peacefully.",
+                options: ["Baby", "Sleeps", "Peacefully", "The"],
+                correct: 1,
+                feedback: "Sleeps is the verb because it tells us what the baby is doing."
+            }
+        ];
+
+        const letters = ["A", "B", "C", "D"];
+        let current = 0;
+        let score = 0;
+        let answered = false;
+
+        const qTitle = document.getElementById('qTitle');
+        const qSentence = document.getElementById('qSentence');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+        const scorePill = document.getElementById('scorePill');
+        const gameContent = document.getElementById('gameContent');
+        const resultCard = document.getElementById('resultCard');
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[current];
+            qTitle.textContent = q.title;
+            qSentence.textContent = `"${q.sentence}"`;
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            nextBtn.classList.remove('show');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<strong>${letters[i]}.</strong> ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                optionsContainer.appendChild(btn);
+            });
+
+            progressText.textContent = `Question ${current + 1} of ${questions.length}`;
+            progressFill.style.width = `${(current / questions.length) * 100}%`;
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.textContent = current === questions.length - 1 ? 'See Results' : 'Next Question';
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+            answered = true;
+            const q = questions[current];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === q.correct) btn.classList.add('correct');
+                else if (i === index) btn.classList.add('wrong');
+            });
+
+            if (index === q.correct) {
+                score++;
+                feedback.className = 'feedback show good';
+                feedback.textContent = `Correct! ${q.feedback}`;
+            } else {
+                feedback.className = 'feedback show bad';
+                feedback.textContent = `Not quite. ${q.feedback}`;
+            }
+
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.classList.add('show');
+        }
+
+        nextBtn.onclick = () => {
+            current++;
+            if (current < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            gameContent.style.display = 'none';
+            resultCard.classList.add('show');
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Game Complete!';
+
+            let title, msg, emoji;
+            if (score === 5) {
+                title = 'Excellent!'; msg = 'You are a Verb Master!';
+            } else if (score >= 3) {
+                title = 'Great job!'; msg = 'Keep practicing your verbs!';
+            } else {
+                title = 'Do not give up!'; msg = 'Review the lesson and try again.';
+            }
+
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = `You scored ${score} out of ${questions.length}. ${msg}`;
+        }
+
+        function restartGame() {
+            current = 0; score = 0;
+            resultCard.classList.remove('show');
+            gameContent.style.display = 'block';
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - The World of Verbs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #fdfaef 0%, #fff3f7 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .btn { font-family: 'Fredoka', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; flex: 1; }
+        .top-section { background-color: #ffebf1; border-bottom: 3px solid #ffd0de; padding-bottom: 40px; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; color: #fff; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.3rem; text-decoration: none; background-color: #e53966; padding: 10px 20px; border-radius: 16px; box-shadow: 0 4px 0 #b5224b; line-height: 1.1; }
+        .logo-area img { width: 40px; height: 40px; object-fit: contain; background: white; border-radius: 8px; padding: 2px; }
+        .nav-links { display: flex; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 2px solid #f0e6fa; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 700; font-size: 0.95rem; padding: 8px 16px; border-radius: 30px; transition: 0.2s; }
+        .nav-links a.active { background: #e53966; color: white; }
+        .nav-links a:hover:not(.active) { background: #ffebf1; color: #e53966; }
+        .page-hero { text-align: center; padding: 30px 0 10px; }
+        .page-hero .welcome { color: #3a7bd5; font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
+        .page-hero h1 { font-size: 3rem; color: #e53966; margin-bottom: 10px; }
+        .page-hero p { font-size: 1.05rem; color: #666; font-weight: 600; max-width: 600px; margin: 0 auto; }
+        .main-content { padding-top: 40px; padding-bottom: 60px; }
+        .lesson-block { background: #fff; border-radius: 24px; padding: 35px; margin-bottom: 30px; border: 2px solid #f0e6fa; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .lesson-block h2 { font-size: 1.8rem; color: #7b4b9e; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; }
+        .lesson-block h3 { font-size: 1.3rem; color: #e53966; margin: 25px 0 10px; }
+        .lesson-block p { margin-bottom: 12px; color: #444; }
+        .lesson-block ul, .lesson-block ol { margin: 10px 0 15px 25px; color: #444; }
+        .lesson-block li { margin-bottom: 6px; }
+        .num-badge { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #e53966; color: #fff; border-radius: 50%; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.2rem; flex-shrink: 0; }
+        .example-box { background: #fff6d6; border-left: 5px solid #f5a623; border-radius: 12px; padding: 15px 20px; margin: 15px 0; }
+        .example-box strong { color: #c98617; }
+        .example-box em { color: #e53966; font-style: normal; font-weight: 800; }
+        .verb-type { background: #f0e6fa; border-radius: 16px; padding: 20px 25px; margin: 15px 0; }
+        .verb-type h3 { color: #6a4c9c; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; border-radius: 12px; overflow: hidden; }
+        th { background: #7b4b9e; color: #fff; font-family: 'Fredoka', sans-serif; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #f0e6fa; }
+        tr:nth-child(even) td { background: #faf7ff; }
+        tr:last-child td { border-bottom: none; }
+        .remember-banner { background: #e2d1f9; border-radius: 30px; padding: 25px; display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; text-align: center; }
+        .remember-badge { background: #6a4c9c; color: white; font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; padding: 10px 25px; border-radius: 20px; transform: rotate(-3deg); }
+        .remember-banner p { font-size: 1.1rem; font-weight: 700; color: #4a2a6e; margin: 0; }
+        .remember-star {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .btn-primary { display: inline-flex; align-items: center; background: #e53966; color: white; text-decoration: none; padding: 15px 35px; border-radius: 40px; font-size: 1.1rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 6px 0 #b5224b; transition: 0.15s; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(2px); box-shadow: 0 4px 0 #b5224b; }
+        .center { text-align: center; margin-top: 20px; }
+        footer { background: #6a4c9c; color: white; text-align: center; padding: 20px; border-radius: 30px 30px 0 0; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .lesson-block { padding: 22px; }
+            .remember-banner { flex-direction: column; }
+            .remember-star { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="container">
+            <header class="top-nav">
+                <a href="index.html" class="logo-area">
+                    <img src="images/logo-book.png" alt="Book Icon" onerror="this.style.display='none'">
+                    <div>The World of<br>VERBS</div>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="lessons.html" class="active">Lessons</a>
+                    <a href="games.html">Games</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="activities.html">Activities</a>
+                </nav>
+            </header>
+            <div class="page-hero">
+                <div class="welcome">Lesson 1</div>
+                <h1>Let's Learn About Verbs!</h1>
+                <p>Learn Verbs, Make Actions! | English Grammar | Elementary Learners</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-content">
+        <!-- A. What is a Verb? -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">A</span> What is a Verb?</h2>
+            <p>A <strong>verb</strong> is a word that expresses an <em>action</em>, a <em>state of being</em>, or an <em>occurrence</em>. It tells us what a person, animal, or thing does.</p>
+            <p>Verbs are also called <strong>action words</strong> because they describe what someone or something is doing.</p>
+            <div class="example-box">
+                <strong>Examples:</strong><br>
+                The girl <em>runs</em> in the playground.<br>
+                The boy <em>eats</em> an apple.<br>
+                The teacher <em>writes</em> on the board.<br>
+                The baby <em>sleeps</em> peacefully.
+            </div>
+            <p>In these sentences, <em>runs</em>, <em>eats</em>, <em>writes</em>, and <em>sleeps</em> are verbs because they tell us what the subject does.</p>
+        </div>
+
+        <!-- B. Learning Objectives -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">B</span> Learning Objectives</h2>
+            <p>After studying this lesson, learners are expected to:</p>
+            <ul>
+                <li>Define what a verb is.</li>
+                <li>Identify verbs in simple sentences.</li>
+                <li>Recognize different types of verbs.</li>
+                <li>Use verbs correctly in sentences.</li>
+                <li>Demonstrate actions using appropriate verbs.</li>
+            </ul>
+        </div>
+
+        <!-- B.1 Watch & Learn (Video Placeholder) -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">▶</span> Watch &amp; Learn</h2>
+            <p>Watch this short video to see verbs in action before we look at the different types.</p>
+            <video controls width="100%" style="border-radius:16px; margin-top:15px; display:block;">
+                <source src="videos/verbs-intro.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- C. Types of Verbs -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">C</span> Different Types of Verbs</h2>
+
+            <div class="verb-type">
+                <h3>1. Action Verbs</h3>
+                <p>Action verbs are words that show what a person, animal, or thing does. These actions can be <strong>physical</strong> or <strong>mental</strong>.</p>
+                <p><strong>Examples:</strong> run, jump, dance, sing, write, think.</p>
+                <div class="example-box">
+                    Ana <em>dances</em> beautifully.<br>
+                    The children <em>play</em> outside.<br>
+                    I <em>think</em> about my answer.
+                </div>
+            </div>
+
+            <div class="verb-type">
+                <h3>2. Linking Verbs</h3>
+                <p>Linking verbs connect the subject to a word that describes or identifies it. They do not show physical action.</p>
+                <p><strong>Common examples:</strong> am, is, are, was, were, become, seem.</p>
+                <div class="example-box">
+                    She <em>is</em> happy.<br>
+                    They <em>are</em> students.<br>
+                    He <em>was</em> tired.
+                </div>
+            </div>
+
+            <div class="verb-type">
+                <h3>3. Helping Verbs</h3>
+                <p>Helping verbs work with the main verb to express an action or condition more clearly.</p>
+                <p><strong>Common examples:</strong> is, am, are, was, were, has, have, will, can.</p>
+                <div class="example-box">
+                    She <em>is reading</em> a book.<br>
+                    They <em>are playing</em> basketball.<br>
+                    I <em>will study</em> tonight.<br>
+                    He <em>can swim</em>.
+                </div>
+            </div>
+        </div>
+
+        <!-- D. Examples Table -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">D</span> Examples of Verbs in Everyday Life</h2>
+            <table>
+                <tr><th>Activity</th><th>Verb</th></tr>
+                <tr><td>A child moving quickly</td><td><strong>Run</strong></td></tr>
+                <tr><td>A person eating food</td><td><strong>Eat</strong></td></tr>
+                <tr><td>A girl making music</td><td><strong>Sing</strong></td></tr>
+                <tr><td>A boy making words with a pencil</td><td><strong>Write</strong></td></tr>
+                <tr><td>A child moving up and down</td><td><strong>Jump</strong></td></tr>
+                <tr><td>A person resting at night</td><td><strong>Sleep</strong></td></tr>
+            </table>
+        </div>
+
+        <!-- E. Why Important -->
+        <div class="lesson-block">
+            <h2><span class="num-badge">E</span> Why Are Verbs Important?</h2>
+            <p>Verbs are important because they:</p>
+            <ul>
+                <li>Help us express actions and activities.</li>
+                <li>Make sentences complete and meaningful.</li>
+                <li>Help us communicate our thoughts and ideas.</li>
+                <li>Tell us what people, animals, and things do.</li>
+                <li>Make our stories and conversations more interesting.</li>
+            </ul>
+        </div>
+
+        <!-- REMEMBER BANNER (WITH STAR) -->
+        <div class="remember-banner">
+            <img src="images/remember-star.png" alt="Shining Star" class="remember-star" onerror="this.src='https://placehold.co/80x80/fff6d6/f5a623?text=Star'">
+            <div class="remember-badge">Remember:</div>
+            <p>"Verbs are action words that make our sentences meaningful!"</p>
+        </div>
+
+        <div class="center">
+            <a href="quiz.html" class="btn-primary">Answer the Questions</a>
+        </div>
+    </div>
+
+    <footer>Small words. Big actions. Keep learning!</footer>
+</body>
+</html>

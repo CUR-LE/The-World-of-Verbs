@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - The World of Verbs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #fdfaef 0%, #fff3f7 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .btn { font-family: 'Fredoka', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; flex: 1; }
+        .top-section { background-color: #ffebf1; border-bottom: 3px solid #ffd0de; padding-bottom: 40px; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; color: #fff; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.3rem; text-decoration: none; background-color: #e53966; padding: 10px 20px; border-radius: 16px; box-shadow: 0 4px 0 #b5224b; line-height: 1.1; }
+        .logo-area img { width: 40px; height: 40px; object-fit: contain; background: white; border-radius: 8px; padding: 2px; }
+        .nav-links { display: flex; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 2px solid #f0e6fa; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 700; font-size: 0.95rem; padding: 8px 16px; border-radius: 30px; transition: 0.2s; }
+        .nav-links a.active { background: #7b4b9e; color: white; }
+        .nav-links a:hover:not(.active) { background: #f0e6fa; color: #7b4b9e; }
+        .page-hero { text-align: center; padding: 30px 0 10px; }
+        .page-hero .welcome { color: #7b4b9e; font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
+        .page-hero h1 { font-size: 3rem; color: #7b4b9e; margin-bottom: 10px; }
+        .page-hero p { font-size: 1.05rem; color: #666; font-weight: 600; max-width: 600px; margin: 0 auto; }
+        .main-content { padding-top: 40px; padding-bottom: 60px; }
+        .intro-block { background: #fff; border-radius: 24px; padding: 30px; margin-bottom: 30px; border: 2px solid #f0e6fa; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .intro-block h2 { color: #7b4b9e; font-size: 1.6rem; margin-bottom: 12px; }
+        .intro-block ol { margin: 10px 0 5px 25px; color: #444; }
+        .intro-block li { margin-bottom: 6px; }
+        .quiz-area { background: #fff; border-radius: 24px; padding: 30px; border: 2px solid #f0e6fa; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .progress-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .progress-text { font-family: 'Fredoka', sans-serif; font-weight: 700; color: #7b4b9e; font-size: 1.1rem; }
+        .progress-track { flex: 1; height: 14px; background: #f0e6fa; border-radius: 10px; overflow: hidden; min-width: 150px; }
+        .progress-fill { height: 100%; background: #7b4b9e; border-radius: 10px; transition: width 0.3s; width: 0%; }
+        .score-pill { background: #f0e6fa; color: #5a3575; font-family: 'Fredoka', sans-serif; font-weight: 700; padding: 8px 18px; border-radius: 20px; }
+        .question-card h3 { font-size: 1.4rem; color: #7b4b9e; margin-bottom: 8px; }
+        .sentence { font-size: 1.15rem; font-weight: 700; color: #333; background: #faf7ff; padding: 15px 20px; border-radius: 14px; border-left: 5px solid #7b4b9e; margin-bottom: 22px; }
+        .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .option-btn { padding: 16px; border-radius: 16px; border: 2px solid #f0e6fa; background: #fff; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.05rem; color: #555; cursor: pointer; transition: 0.15s; text-align: left; }
+        .option-btn:hover:not(:disabled) { background: #f0e6fa; border-color: #7b4b9e; color: #5a3575; transform: translateY(-2px); }
+        .option-btn:disabled { cursor: default; }
+        .option-btn.correct { background: #e4f5e0; border-color: #5f9e3e; color: #43782a; }
+        .option-btn.wrong { background: #ffe0e0; border-color: #e53966; color: #b5224b; }
+        .feedback { margin-top: 20px; padding: 16px 20px; border-radius: 14px; font-weight: 700; display: none; }
+        .feedback.show { display: block; }
+        .feedback.good { background: #e4f5e0; color: #43782a; }
+        .feedback.bad { background: #ffe0e0; color: #b5224b; }
+        .next-btn { margin-top: 20px; display: none; }
+        .next-btn.show { display: inline-flex; }
+        .btn-primary { display: inline-flex; align-items: center; background: #7b4b9e; color: white; text-decoration: none; padding: 15px 35px; border-radius: 40px; font-size: 1.05rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 6px 0 #5a3575; transition: 0.15s; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(2px); box-shadow: 0 4px 0 #5a3575; }
+        .btn-secondary { display: inline-flex; align-items: center; background: #fff; color: #7b4b9e; text-decoration: none; padding: 14px 30px; border-radius: 40px; font-size: 1rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 4px 0 #e0d5f0; border: 2px solid #f0e6fa; cursor: pointer; transition: 0.15s; }
+        .btn-secondary:hover { background: #f0e6fa; }
+        .result-card { text-align: center; display: none; }
+        .result-card.show { display: block; }
+        .result-badge { font-size: 2.5rem; font-family: 'Fredoka', sans-serif; font-weight: 700; color: #7b4b9e; margin-bottom: 10px; letter-spacing: 2px; }
+        .result-card h2 { font-size: 2rem; color: #7b4b9e; margin-bottom: 10px; }
+        .result-card p { font-size: 1.15rem; font-weight: 700; color: #555; margin-bottom: 25px; }
+        .result-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .review-list { text-align: left; max-width: 700px; margin: 0 auto 25px; }
+        .review-item { background: #faf7ff; border-left: 4px solid #e53966; border-radius: 10px; padding: 12px 18px; margin-bottom: 10px; font-weight: 600; color: #555; font-size: 0.95rem; }
+        .review-item strong { color: #b5224b; }
+        footer { background: #6a4c9c; color: white; text-align: center; padding: 20px; border-radius: 30px 30px 0 0; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .options { grid-template-columns: 1fr; }
+            .intro-block, .quiz-area { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="container">
+            <header class="top-nav">
+                <a href="index.html" class="logo-area">
+                    <img src="images/logo-book.png" alt="Book Icon" onerror="this.style.display='none'">
+                    <div>The World of<br>VERBS</div>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="games.html">Games</a>
+                    <a href="quiz.html" class="active">Quiz</a>
+                    <a href="activities.html">Activities</a>
+                </nav>
+            </header>
+            <div class="page-hero">
+                <div class="welcome">Verb Knowledge Quiz</div>
+                <h1>Test Your Verb Knowledge!</h1>
+                <p>Answer ten questions about action verbs, linking verbs, helping verbs, and sentence usage. Ready to see how much you know?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-content">
+        <!-- Instructions -->
+        <div class="intro-block">
+            <h2>How to Take the Quiz</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Choose only one correct answer.</li>
+                <li>Each correct answer is worth one point.</li>
+                <li>Answer all ten questions to finish.</li>
+                <li>Check your score and review explanations at the end.</li>
+            </ol>
+        </div>
+
+        <!-- Quiz Area -->
+        <div class="quiz-area">
+            <div class="progress-bar">
+                <span class="progress-text" id="progressText">Question 1 of 10</span>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+                <span class="score-pill" id="scorePill">Score: 0</span>
+            </div>
+
+            <div id="quizContent">
+                <div class="question-card">
+                    <h3 id="qTitle">Question</h3>
+                    <div class="sentence" id="qSentence"></div>
+                    <div class="options" id="optionsContainer"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <button class="btn-primary next-btn" id="nextBtn">Next Question</button>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="result-card" id="resultCard">
+                <div class="result-badge">RESULT</div>
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+                <div class="review-list" id="reviewList"></div>
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="restartQuiz()">Try Again</button>
+                    <a href="index.html" class="btn-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Small words. Big actions. Keep learning!</footer>
+
+    <script>
+        const questions = [
+            {
+                question: "What is a verb?",
+                options: [
+                    "A word that names a person, place, or thing.",
+                    "A word that describes a noun.",
+                    "A word that expresses an action or state of being.",
+                    "A word that connects two sentences."
+                ],
+                correct: 2,
+                explanation: "A verb expresses an action (run, jump) or a state of being (is, seem). It is the main word in the predicate."
+            },
+            {
+                question: "Which of the following is an action verb?",
+                options: ["Beautiful", "Jump", "Happy", "Quickly"],
+                correct: 1,
+                explanation: "Jump is an action verb because it shows a physical movement. Beautiful and happy are adjectives; quickly is an adverb."
+            },
+            {
+                question: "Identify the verb: \"The dog barks loudly.\"",
+                options: ["Dog", "Loudly", "The", "Barks"],
+                correct: 3,
+                explanation: "Barks is the verb because it tells us what the dog is doing. Dog is the subject; loudly is an adverb."
+            },
+            {
+                question: "Which sentence contains a linking verb?",
+                options: ["She is happy.", "He runs fast.", "They play basketball.", "I eat rice."],
+                correct: 0,
+                explanation: "\"Is\" in \"She is happy\" is a linking verb connecting the subject to the adjective happy. The other sentences use action verbs."
+            },
+            {
+                question: "Which of the following is a helping verb?",
+                options: ["Jump", "Dance", "Can", "Sing"],
+                correct: 2,
+                explanation: "Can is a helping verb used with a main verb (e.g., \"She can swim\"). Jump, dance, and sing are action verbs."
+            },
+            {
+                question: "What is the verb in \"The children are playing outside\"?",
+                options: ["Children", "Are playing", "Outside", "The"],
+                correct: 1,
+                explanation: "\"Are playing\" is the verb phrase. \"Are\" is a helping verb and \"playing\" is the main verb."
+            },
+            {
+                question: "Which word completes the sentence correctly? \"She ___ a beautiful song.\"",
+                options: ["Sing", "Singing", "Sings", "Sung"],
+                correct: 2,
+                explanation: "Sings is the correct present tense form for the third-person singular subject \"She\"."
+            },
+            {
+                question: "Which sentence uses a verb correctly?",
+                options: [
+                    "He go to school every day.",
+                    "He going to school every day.",
+                    "He goes to school every day.",
+                    "He gone to school every day."
+                ],
+                correct: 2,
+                explanation: "\"He goes to school every day\" uses the correct third-person singular present tense form \"goes\"."
+            },
+            {
+                question: "What type of verb is \"is\" in \"She is a teacher\"?",
+                options: ["Action verb", "Linking verb", "Helping verb", "None of the above"],
+                correct: 1,
+                explanation: "\"Is\" is a linking verb here because it connects the subject \"She\" to the noun \"teacher\"."
+            },
+            {
+                question: "Why are verbs important in sentences?",
+                options: [
+                    "They make sentences longer only.",
+                    "They replace all nouns.",
+                    "They show actions or states of being.",
+                    "They are used only in questions."
+                ],
+                correct: 2,
+                explanation: "Verbs are essential because they express what the subject does or is—actions, occurrences, or states of being."
+            }
+        ];
+
+        const letters = ["A", "B", "C", "D"];
+        let current = 0;
+        let score = 0;
+        let answered = false;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        const qTitle = document.getElementById('qTitle');
+        const qSentence = document.getElementById('qSentence');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+        const scorePill = document.getElementById('scorePill');
+        const quizContent = document.getElementById('quizContent');
+        const resultCard = document.getElementById('resultCard');
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[current];
+            qTitle.textContent = `Question ${current + 1}`;
+            qSentence.textContent = q.question;
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            nextBtn.classList.remove('show');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<strong>${letters[i]}.</strong> ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                optionsContainer.appendChild(btn);
+            });
+
+            progressText.textContent = `Question ${current + 1} of ${questions.length}`;
+            progressFill.style.width = `${(current / questions.length) * 100}%`;
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.textContent = current === questions.length - 1 ? 'See Results' : 'Next Question';
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+            answered = true;
+            userAnswers[current] = index;
+            const q = questions[current];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === q.correct) btn.classList.add('correct');
+                else if (i === index) btn.classList.add('wrong');
+            });
+
+            if (index === q.correct) {
+                score++;
+                feedback.className = 'feedback show good';
+                feedback.textContent = `Correct! ${q.explanation}`;
+            } else {
+                feedback.className = 'feedback show bad';
+                feedback.textContent = `Not quite. ${q.explanation}`;
+            }
+
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.classList.add('show');
+        }
+
+        nextBtn.onclick = () => {
+            current++;
+            if (current < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            quizContent.style.display = 'none';
+            resultCard.classList.add('show');
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Quiz Complete!';
+
+            let title, msg;
+            if (score === 10) {
+                title = 'Excellent work!';
+                msg = 'You have shown a strong understanding of verbs. Continue practicing and using action words in your everyday sentences!';
+            } else if (score >= 7) {
+                title = 'Great job!';
+                msg = 'You have a good grasp of verbs. Review the questions you missed and keep learning!';
+            } else {
+                title = 'Keep practicing!';
+                msg = 'Review the lesson on verbs and try again. You will improve with practice!';
+            }
+
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = `You scored ${score} out of ${questions.length}. ${msg}`;
+
+            // Build review list for incorrect answers
+            const reviewList = document.getElementById('reviewList');
+            reviewList.innerHTML = '';
+            const incorrectIndices = [];
+            userAnswers.forEach((ans, idx) => {
+                if (ans !== questions[idx].correct) {
+                    incorrectIndices.push(idx);
+                }
+            });
+
+            if (incorrectIndices.length === 0) {
+                reviewList.innerHTML = '<p style="text-align:center; color:#5f9e3e; font-weight:700;">All answers are correct. Outstanding!</p>';
+            } else {
+                const heading = document.createElement('h3');
+                heading.textContent = 'Review Your Incorrect Answers:';
+                heading.style.color = '#7b4b9e';
+                heading.style.marginBottom = '12px';
+                heading.style.fontFamily = 'Fredoka, sans-serif';
+                reviewList.appendChild(heading);
+
+                incorrectIndices.forEach(idx => {
+                    const q = questions[idx];
+                    const userAnsLetter = userAnswers[idx] !== null ? letters[userAnswers[idx]] : '—';
+                    const correctLetter = letters[q.correct];
+                    const item = document.createElement('div');
+                    item.className = 'review-item';
+                    item.innerHTML = `<strong>Q${idx + 1}:</strong> ${q.question}<br>
+                        Your answer: <strong>${userAnsLetter}. ${userAnswers[idx] !== null ? q.options[userAnswers[idx]] : 'Not answered'}</strong><br>
+                        Correct answer: <strong>${correctLetter}. ${q.options[q.correct]}</strong><br>
+                        <em>${q.explanation}</em>`;
+                    reviewList.appendChild(item);
+                });
+            }
+        }
+
+        function restartQuiz() {
+            current = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            resultCard.classList.remove('show');
+            quizContent.style.display = 'block';
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

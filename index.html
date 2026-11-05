@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The World of Verbs</title>
+    <style>
+        /* --- BASE & FONTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #fdfaef 0%, #fff3f7 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .btn {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        /* --- TOP WRAPPER WITH SOLID COLOR --- */
+        .top-section {
+            background-color: #ffebf1;
+            border-bottom: 3px solid #ffd0de;
+            padding-bottom: 40px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Header Logo Block */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            text-decoration: none;
+            background-color: #e53966;
+            padding: 10px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 0 #b5224b;
+            line-height: 1.1;
+        }
+
+        .logo-area img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            border-radius: 8px;
+            padding: 2px;
+        }
+
+        /* Navbar Block */
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            background: #ffffff;
+            padding: 8px 16px;
+            border-radius: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border: 2px solid #f0e6fa;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .nav-links a.active {
+            background: #e53966;
+            color: white;
+        }
+
+        .nav-links a:hover:not(.active) {
+            background: #ffebf1;
+            color: #e53966;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0 10px;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1 1 450px;
+        }
+
+        .hero-text .welcome {
+            color: #3a7bd5;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            color: #8b5b9e;
+            margin-bottom: 15px;
+        }
+        
+        .hero-text h1 span {
+            color: #e53966;
+            display: block;
+        }
+
+        .tagline-badge {
+            display: inline-block;
+            background: #fce43c;
+            color: #6d4f18;
+            font-weight: 800;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 0 #d1bb27;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: #555;
+            font-weight: 600;
+            max-width: 450px;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            background: #e53966;
+            color: white;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 6px 0 #b5224b;
+            transition: 0.15s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #b5224b;
+        }
+
+        .hero-image {
+        flex: 1 1 500px;      /* smaller basis */
+        max-width: 500px;     /* cap the size */
+        margin: 0 auto;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- MAIN CONTENT (Below Hero) --- */
+        .main-content {
+            padding-top: 50px;
+        }
+
+        /* --- EXPLORE FEATURES SECTION --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #3a7bd5;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 70px;
+        }
+
+        .feature-card {
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.2s;
+            border: 2px solid transparent;
+            text-decoration: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon-img {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 15px;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 25px;
+            flex: 1;
+        }
+
+        .card-btn {
+            color: white;
+            font-weight: 700;
+            font-family: 'Fredoka', sans-serif;
+            padding: 12px 24px;
+            border-radius: 30px;
+            width: 100%;
+            display: block;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover .card-btn {
+            filter: brightness(0.9);
+        }
+
+        /* Feature Card Colors */
+        .card-lessons { background: #ffebf1; }
+        .card-lessons h3 { color: #e53966; }
+        .card-lessons .card-btn { background: #e53966; box-shadow: 0 4px 0 #b5224b; }
+
+        .card-games { background: #fff6d6; }
+        .card-games h3 { color: #f5a623; }
+        .card-games .card-btn { background: #f5a623; box-shadow: 0 4px 0 #c98617; }
+
+        .card-quiz { background: #f0e6fa; }
+        .card-quiz h3 { color: #7b4b9e; }
+        .card-quiz .card-btn { background: #7b4b9e; box-shadow: 0 4px 0 #5a3575; }
+
+        .card-activities { background: #e4f5e0; }
+        .card-activities h3 { color: #5f9e3e; }
+        .card-activities .card-btn { background: #5f9e3e; box-shadow: 0 4px 0 #43782a; }
+
+        /* --- WHY VERBS IMPORTANT SECTION --- */
+        .why-section {
+            background: #f2f9ff;
+            border-radius: 40px;
+            padding: 50px 30px;
+            text-align: center;
+            margin-bottom: 60px;
+            border: 2px solid #d0e8ff;
+        }
+
+        .why-section h2 {
+            font-size: 2.2rem;
+            color: #6a4c9c;
+            margin-bottom: 40px;
+        }
+
+        .why-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .why-item {
+            flex: 1 1 160px;
+            max-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .why-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .why-icon img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .why-item p {
+            font-weight: 700;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* --- REMEMBER BANNER (UPDATED WITH STAR) --- */
+        .remember-banner {
+            background: #e2d1f9;
+            border-radius: 30px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 60px;
+            position: relative;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .remember-badge {
+            background: #6a4c9c;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 10px 25px;
+            border-radius: 20px;
+            transform: rotate(-3deg);
+            flex-shrink: 0;
+        }
+
+        .remember-star {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .remember-banner p {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a2a6e;
+            margin: 0;
+            flex: 1 1 300px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #6a4c9c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 30px 30px 0 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero { text-align: center; justify-content: center; }
+            .hero-text p { margin: 0 auto 30px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .remember-banner { flex-direction: column; }
+            .remember-star { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP SECTION (Solid Background) -->
+    <div class="top-section">
+        <div class="container">
+            <!-- HEADER -->
+            <header class="top-nav">
+                <a href="index.html" class="logo-area">
+                    <img src="images/logo-book.png" alt="Book Icon" onerror="this.style.display='none'">
+                    <div>The World of<br>VERBS</div>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="games.html">Games</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="activities.html">Activities</a>
+                </nav>
+            </header>
+
+            <!-- HERO SECTION -->
+            <section class="hero">
+                <div class="hero-text">
+                    <div class="welcome">Welcome to</div>
+                    <h1>The World of <span>VERBS</span></h1>
+                    <div class="tagline-badge">Learn • Practice • Be a Better You!</div>
+                    <p>Verbs are action words. They tell us what someone or something does, is, or happens.</p>
+                    <a href="lessons.html" class="btn-primary">Start Exploring</a>
+                </div>
+                        <div class="hero-image">
+                <img src="images/hero-kids-verbs.png" alt="Happy kids learning verbs"
+                    style="width:100%; height:auto; border-radius:20px;"
+                    onerror="this.src='https://placehold.co/700x500/ffebf1/e53966?text=Hero+Image'">
+            </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (Grid Background) -->
+    <div class="container main-content">
+        
+        <!-- EXPLORE FEATURES -->
+        <section>
+            <div class="section-header">
+                <h2>Explore Our Features</h2>
+                <p>Choose a section and start your verb adventure!</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Lessons Card -->
+                <a href="lessons.html" class="feature-card card-lessons">
+                    <img src="images/icon-lessons.png" alt="Lessons Icon" class="card-icon-img" onerror="this.src='https://placehold.co/120x120/ffebf1/e53966?text=Book'">
+                    <h3>Lessons</h3>
+                    <p>Learn the basics and types of verbs.</p>
+                    <div class="card-btn">Go to Lessons</div>
+                </a>
+
+                <!-- Games Card -->
+                <a href="games.html" class="feature-card card-games">
+                    <img src="images/icon-games.png" alt="Games Icon" class="card-icon-img" onerror="this.src='https://placehold.co/120x120/fff6d6/f5a623?text=Game'">
+                    <h3>Games</h3>
+                    <p>Test your knowledge and have fun!</p>
+                    <div class="card-btn">Play Games</div>
+                </a>
+
+                <!-- Quiz Card -->
+                <a href="quiz.html" class="feature-card card-quiz">
+                    <img src="images/icon-quiz.png" alt="Quiz Icon" class="card-icon-img" onerror="this.src='https://placehold.co/120x120/f0e6fa/7b4b9e?text=Quiz'">
+                    <h3>Quiz</h3>
+                    <p>Check what you have learned.</p>
+                    <div class="card-btn">Take Quiz</div>
+                </a>
+
+                <!-- Activities Card -->
+                <a href="activities.html" class="feature-card card-activities">
+                    <img src="images/icon-activities.png" alt="Activities Icon" class="card-icon-img" onerror="this.src='https://placehold.co/120x120/e4f5e0/5f9e3e?text=Idea'">
+                    <h3>Activities</h3>
+                    <p>Show what you can do with verbs!</p>
+                    <div class="card-btn">Start Activities</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- WHY VERBS ARE IMPORTANT -->
+        <section class="why-section">
+            <h2>Why Are Verbs Important?</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <img src="images/why-run.png" alt="Run Icon" onerror="this.src='https://placehold.co/60x60/d4edfc/3a7bd5?text=Run'">
+                    </div>
+                    <p>They help us express actions and activities.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <img src="images/why-chat.png" alt="Chat Icon" onerror="this.src='https://placehold.co/60x60/ffebf1/e53966?text=Chat'">
+                    </div>
+                    <p>They make sentences complete and meaningful.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <img src="images/why-brain.png" alt="Brain Icon" onerror="this.src='https://placehold.co/60x60/fff6d6/f5a623?text=Brain'">
+                    </div>
+                    <p>They help us communicate our thoughts and ideas.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <img src="images/why-people.png" alt="People Icon" onerror="this.src='https://placehold.co/60x60/f0e6fa/7b4b9e?text=People'">
+                    </div>
+                    <p>They tell us what people, animals, and things do.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <img src="images/why-star.png" alt="Star Icon" onerror="this.src='https://placehold.co/60x60/fff6d6/f5a623?text=Star'">
+                    </div>
+                    <p>They make our stories and conversations more interesting!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- REMEMBER BANNER (WITH STAR) -->
+        <div class="remember-banner">
+            <img src="images/remember-star.png" alt="Shining Star" class="remember-star" onerror="this.src='https://placehold.co/80x80/fff6d6/f5a623?text=Star'">
+            <div class="remember-badge">Remember:</div>
+            <p>"Verbs are action words that make our sentences meaningful!"</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Small words. Big actions. Keep learning!
+    </footer>
+
+</body>
+</html>

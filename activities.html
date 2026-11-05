@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities - The World of Verbs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #fdfaef 0%, #fff3f7 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .btn { font-family: 'Fredoka', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; flex: 1; }
+        .top-section { background-color: #e4f5e0; border-bottom: 3px solid #c6e5b8; padding-bottom: 40px; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; color: #fff; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.3rem; text-decoration: none; background-color: #e53966; padding: 10px 20px; border-radius: 16px; box-shadow: 0 4px 0 #b5224b; line-height: 1.1; }
+        .logo-area img { width: 40px; height: 40px; object-fit: contain; background: white; border-radius: 8px; padding: 2px; }
+        .nav-links { display: flex; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 2px solid #f0e6fa; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 700; font-size: 0.95rem; padding: 8px 16px; border-radius: 30px; transition: 0.2s; }
+        .nav-links a.active { background: #5f9e3e; color: white; }
+        .nav-links a:hover:not(.active) { background: #e4f5e0; color: #5f9e3e; }
+        .page-hero { text-align: center; padding: 30px 0 10px; }
+        .page-hero .welcome { color: #43782a; font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
+        .page-hero h1 { font-size: 3rem; color: #5f9e3e; margin-bottom: 10px; }
+        .page-hero p { font-size: 1.05rem; color: #666; font-weight: 600; max-width: 600px; margin: 0 auto; }
+        .main-content { padding-top: 40px; padding-bottom: 60px; }
+        .intro-block { background: #fff; border-radius: 24px; padding: 30px; margin-bottom: 30px; border: 2px solid #e4f5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .intro-block h2 { color: #43782a; font-size: 1.6rem; margin-bottom: 12px; }
+        .intro-block p, .intro-block ul { color: #444; margin-bottom: 12px; }
+        .intro-block ul { margin-left: 25px; }
+        .intro-block li { margin-bottom: 6px; }
+        .activity-area { background: #fff; border-radius: 24px; padding: 30px; border: 2px solid #e4f5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .progress-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .progress-text { font-family: 'Fredoka', sans-serif; font-weight: 700; color: #5f9e3e; font-size: 1.1rem; }
+        .progress-track { flex: 1; height: 14px; background: #e4f5e0; border-radius: 10px; overflow: hidden; min-width: 150px; }
+        .progress-fill { height: 100%; background: #5f9e3e; border-radius: 10px; transition: width 0.3s; width: 0%; }
+        .score-pill { background: #e4f5e0; color: #43782a; font-family: 'Fredoka', sans-serif; font-weight: 700; padding: 8px 18px; border-radius: 20px; }
+        .question-card h3 { font-size: 1.4rem; color: #43782a; margin-bottom: 8px; }
+        .sentence { font-size: 1.15rem; font-weight: 700; color: #333; background: #f6fcf4; padding: 15px 20px; border-radius: 14px; border-left: 5px solid #5f9e3e; margin-bottom: 22px; }
+        .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .option-btn { padding: 16px; border-radius: 16px; border: 2px solid #e4f5e0; background: #fff; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.05rem; color: #555; cursor: pointer; transition: 0.15s; text-align: left; }
+        .option-btn:hover:not(:disabled) { background: #e4f5e0; border-color: #5f9e3e; color: #43782a; transform: translateY(-2px); }
+        .option-btn:disabled { cursor: default; }
+        .option-btn.correct { background: #e4f5e0; border-color: #5f9e3e; color: #43782a; }
+        .option-btn.wrong { background: #ffe0e0; border-color: #e53966; color: #b5224b; }
+        .feedback { margin-top: 20px; padding: 16px 20px; border-radius: 14px; font-weight: 700; display: none; }
+        .feedback.show { display: block; }
+        .feedback.good { background: #e4f5e0; color: #43782a; }
+        .feedback.bad { background: #ffe0e0; color: #b5224b; }
+        .next-btn { margin-top: 20px; display: none; }
+        .next-btn.show { display: inline-flex; }
+        .btn-primary { display: inline-flex; align-items: center; background: #5f9e3e; color: white; text-decoration: none; padding: 15px 35px; border-radius: 40px; font-size: 1.05rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 6px 0 #43782a; transition: 0.15s; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(2px); box-shadow: 0 4px 0 #43782a; }
+        .btn-secondary { display: inline-flex; align-items: center; background: #fff; color: #5f9e3e; text-decoration: none; padding: 14px 30px; border-radius: 40px; font-size: 1rem; font-family: 'Fredoka', sans-serif; font-weight: 700; box-shadow: 0 4px 0 #d4e8cc; border: 2px solid #e4f5e0; cursor: pointer; transition: 0.15s; }
+        .btn-secondary:hover { background: #e4f5e0; }
+        .result-card { text-align: center; display: none; }
+        .result-card.show { display: block; }
+        .result-badge { font-size: 2.5rem; font-family: 'Fredoka', sans-serif; font-weight: 700; color: #5f9e3e; margin-bottom: 10px; letter-spacing: 2px; }
+        .result-card h2 { font-size: 2rem; color: #5f9e3e; margin-bottom: 10px; }
+        .result-card p { font-size: 1.15rem; font-weight: 700; color: #555; margin-bottom: 25px; }
+        .result-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        /* Reflection Form */
+        .reflection-block { background: #fff; border-radius: 24px; padding: 30px; margin-top: 30px; border: 2px solid #e4f5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .reflection-block h2 { color: #43782a; font-size: 1.6rem; margin-bottom: 8px; }
+        .reflection-block > p { color: #666; font-weight: 600; margin-bottom: 20px; }
+        .reflection-item { margin-bottom: 22px; }
+        .reflection-item label { display: block; font-weight: 700; color: #333; margin-bottom: 8px; }
+        .reflection-item input[type="text"] {
+            width: 100%; padding: 12px 16px; border-radius: 12px;
+            border: 2px solid #e4f5e0; font-family: 'Nunito', sans-serif;
+            font-size: 1rem; color: #333; outline: none; transition: 0.15s;
+        }
+        .reflection-item input[type="text"]:focus { border-color: #5f9e3e; box-shadow: 0 0 0 3px rgba(95,158,62,0.15); }
+        .reflection-item textarea {
+            width: 100%; padding: 12px 16px; border-radius: 12px;
+            border: 2px solid #e4f5e0; font-family: 'Nunito', sans-serif;
+            font-size: 1rem; color: #333; outline: none; resize: vertical;
+            min-height: 80px; transition: 0.15s;
+        }
+        .reflection-item textarea:focus { border-color: #5f9e3e; box-shadow: 0 0 0 3px rgba(95,158,62,0.15); }
+        .reflection-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+
+        /* Receipt / Submitted view */
+        .receipt-view { display: none; }
+        .receipt-view.show { display: block; }
+        .receipt-banner {
+            background: #e4f5e0; border: 2px dashed #5f9e3e; border-radius: 16px;
+            padding: 16px 20px; margin-bottom: 25px; text-align: center;
+            font-weight: 800; color: #2e5a1e; font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem; letter-spacing: 0.5px;
+        }
+        .receipt-item {
+            background: #f6fcf4; border-radius: 14px; padding: 16px 20px;
+            margin-bottom: 14px; border-left: 5px solid #5f9e3e;
+        }
+        .receipt-item .receipt-question {
+            font-weight: 800; color: #43782a; margin-bottom: 6px;
+            font-family: 'Fredoka', sans-serif; font-size: 1.05rem;
+        }
+        .receipt-item .receipt-answer {
+            color: #333; font-weight: 600; white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .receipt-item .receipt-answer.empty {
+            color: #999; font-style: italic; font-weight: 600;
+        }
+        .receipt-sub-answer { margin-bottom: 4px; }
+        .receipt-sub-answer:last-child { margin-bottom: 0; }
+
+        /* Completion Message */
+        .completion-message { background: #e4f5e0; border-radius: 16px; padding: 20px; margin-top: 30px; font-weight: 700; color: #2e5a1e; text-align: center; display: none; }
+        .completion-message.show { display: block; }
+
+        /* Activity Completion */
+        .activity-completion { background: #fff; border-radius: 24px; padding: 30px; margin-top: 30px; border: 2px solid #e4f5e0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: none; }
+        .activity-completion.show { display: block; }
+        .activity-completion h2 { color: #43782a; font-size: 1.6rem; margin-bottom: 12px; }
+        .activity-completion p { color: #444; font-weight: 600; margin-bottom: 20px; }
+        .completion-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+        footer { background: #6a4c9c; color: white; text-align: center; padding: 20px; border-radius: 30px 30px 0 0; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .options { grid-template-columns: 1fr; }
+            .intro-block, .activity-area, .reflection-block, .activity-completion { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="container">
+            <header class="top-nav">
+                <a href="index.html" class="logo-area">
+                    <img src="images/logo-book.png" alt="Book Icon" onerror="this.style.display='none'">
+                    <div>The World of<br>VERBS</div>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="games.html">Games</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="activities.html" class="active">Activities</a>
+                </nav>
+            </header>
+            <div class="page-hero">
+                <div class="welcome">Online Activity</div>
+                <h1>Verb Detective: Find the Verb!</h1>
+                <p>Read short sentences and identify the verbs. Use your phone, tablet, or computer. No materials needed.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-content">
+        <!-- Introduction & Objectives -->
+        <div class="intro-block">
+            <h2>How to Play</h2>
+            <p>Welcome to Verb Detective! Read each sentence on the screen, find the word that shows an action or state of being, and select the correct answer. Click "Check Answer" to see if you are right. Continue until you finish all five questions.</p>
+            <h3 style="margin-top: 20px; color: #43782a; font-size: 1.2rem;">Learning Objectives</h3>
+            <ul>
+                <li>Identify verbs in simple sentences.</li>
+                <li>Choose the correct verb based on the meaning of a sentence.</li>
+                <li>Use verbs correctly in your own sentences.</li>
+            </ul>
+        </div>
+
+        <!-- Activity Area -->
+        <div class="activity-area">
+            <div class="progress-bar">
+                <span class="progress-text" id="progressText">Sentence 1 of 5</span>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+                <span class="score-pill" id="scorePill">Score: 0</span>
+            </div>
+
+            <div id="activityContent">
+                <div class="question-card">
+                    <h3 id="qTitle">Find the Verb</h3>
+                    <div class="sentence" id="qSentence"></div>
+                    <div class="options" id="optionsContainer"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <button class="btn-primary next-btn" id="nextBtn">Next Sentence</button>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="result-card" id="resultCard">
+                <div class="result-badge">RESULT</div>
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="restartActivity()">Try Again</button>
+                    <a href="index.html" class="btn-secondary">Back to Home</a>
+                </div>
+            </div>
+
+            <!-- Completion Message (shown after results) -->
+            <div class="completion-message" id="completionMessage">
+                Great job, Verb Detective! You have completed the online activity. You practiced finding verbs in sentences and learned how verbs help us express actions and states of being. Keep exploring and learning!
+            </div>
+        </div>
+
+        <!-- D. Reflection Form -->
+        <div class="reflection-block" id="reflectionBlock">
+            <h2>D. Reflection Form</h2>
+
+            <!-- Editable form -->
+            <div id="reflectionForm">
+                <p>Think about what you did and answer the questions below.</p>
+
+                <div class="reflection-item">
+                    <label for="reflect1">1. What five action verbs did you perform?</label>
+                    <input type="text" id="reflect1" placeholder="Write your answers here...">
+                </div>
+
+                <div class="reflection-item">
+                    <label for="reflect2">2. Which action was your favorite? Why?</label>
+                    <textarea id="reflect2" placeholder="Write your answer here..."></textarea>
+                </div>
+
+                <div class="reflection-item">
+                    <label>3. Create three sentences using different action verbs.</label>
+                    <input type="text" id="reflect3a" placeholder="Sentence 1: ____________________" style="margin-bottom:10px;">
+                    <input type="text" id="reflect3b" placeholder="Sentence 2: ____________________" style="margin-bottom:10px;">
+                    <input type="text" id="reflect3c" placeholder="Sentence 3: ____________________">
+                </div>
+
+                <div class="reflection-item">
+                    <label for="reflect4">4. What did you learn from this activity?</label>
+                    <textarea id="reflect4" placeholder="Write your answer here..."></textarea>
+                </div>
+
+                <div class="reflection-actions">
+                    <button class="btn-primary" onclick="submitReflection()">Submit Reflection</button>
+                </div>
+            </div>
+
+            <!-- Receipt / read-only view after submission -->
+            <div class="receipt-view" id="receiptView">
+                <div class="receipt-banner">Reflection Submitted</div>
+
+                <div class="receipt-item">
+                    <div class="receipt-question">1. What five action verbs did you perform?</div>
+                    <div class="receipt-answer" id="receipt1"></div>
+                </div>
+
+                <div class="receipt-item">
+                    <div class="receipt-question">2. Which action was your favorite? Why?</div>
+                    <div class="receipt-answer" id="receipt2"></div>
+                </div>
+
+                <div class="receipt-item">
+                    <div class="receipt-question">3. Create three sentences using different action verbs.</div>
+                    <div class="receipt-answer" id="receipt3"></div>
+                </div>
+
+                <div class="receipt-item">
+                    <div class="receipt-question">4. What did you learn from this activity?</div>
+                    <div class="receipt-answer" id="receipt4"></div>
+                </div>
+
+                <div class="reflection-actions">
+                    <button class="btn-secondary" onclick="editReflection()">Edit Answers</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- E. Activity Completion -->
+        <div class="activity-completion" id="activityCompletion">
+            <h2>E. Activity Completion</h2>
+            <p>Congratulations! You have successfully completed the Verb Action Challenge! You did a great job identifying, performing, and using verbs in sentences. Always remember that verbs help us express our actions and ideas every day. Keep learning and keep moving!</p>
+            <div class="completion-actions">
+                <a href="index.html" class="btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>Small words. Big actions. Keep learning!</footer>
+
+    <script>
+        const questions = [
+            {
+                sentence: "The cat sleeps on the sofa.",
+                options: ["Cat", "Sleeps", "Sofa"],
+                correct: 1,
+                feedback: "Sleeps is the verb because it tells us what the cat is doing."
+            },
+            {
+                sentence: "Mia reads a storybook.",
+                options: ["Mia", "Storybook", "Reads"],
+                correct: 2,
+                feedback: "Reads is the verb because it shows the action Mia is performing."
+            },
+            {
+                sentence: "The children are happy.",
+                options: ["Children", "Are", "Happy"],
+                correct: 1,
+                feedback: "Are is the verb (a linking verb) because it connects the children to the word happy."
+            },
+            {
+                sentence: "Ben can swim very well.",
+                options: ["Ben", "Very", "Can swim"],
+                correct: 2,
+                feedback: "Can swim is the verb phrase. Can is a helping verb and swim is the main verb."
+            },
+            {
+                sentence: "The birds sing in the morning.",
+                options: ["Birds", "Sing", "Morning"],
+                correct: 1,
+                feedback: "Sing is the verb because it tells us what the birds are doing."
+            }
+        ];
+
+        const letters = ["A", "B", "C"];
+        let current = 0;
+        let score = 0;
+        let answered = false;
+
+        const qTitle = document.getElementById('qTitle');
+        const qSentence = document.getElementById('qSentence');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+        const scorePill = document.getElementById('scorePill');
+        const activityContent = document.getElementById('activityContent');
+        const resultCard = document.getElementById('resultCard');
+        const completionMessage = document.getElementById('completionMessage');
+        const activityCompletion = document.getElementById('activityCompletion');
+        const reflectionForm = document.getElementById('reflectionForm');
+        const receiptView = document.getElementById('receiptView');
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[current];
+            qTitle.textContent = "Find the Verb";
+            qSentence.textContent = `"${q.sentence}"`;
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            nextBtn.classList.remove('show');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<strong>${letters[i]}.</strong> ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                optionsContainer.appendChild(btn);
+            });
+
+            progressText.textContent = `Sentence ${current + 1} of ${questions.length}`;
+            progressFill.style.width = `${(current / questions.length) * 100}%`;
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.textContent = current === questions.length - 1 ? 'See Results' : 'Next Sentence';
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+            answered = true;
+            const q = questions[current];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === q.correct) btn.classList.add('correct');
+                else if (i === index) btn.classList.add('wrong');
+            });
+
+            if (index === q.correct) {
+                score++;
+                feedback.className = 'feedback show good';
+                feedback.textContent = `Correct! ${q.feedback}`;
+            } else {
+                feedback.className = 'feedback show bad';
+                feedback.textContent = `Not quite. ${q.feedback}`;
+            }
+
+            scorePill.textContent = `Score: ${score}`;
+            nextBtn.classList.add('show');
+        }
+
+        nextBtn.onclick = () => {
+            current++;
+            if (current < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            activityContent.style.display = 'none';
+            resultCard.classList.add('show');
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Activity Complete!';
+
+            let title, msg;
+            if (score === 5) {
+                title = 'Excellent!';
+                msg = 'You are a Verb Detective! You found every verb correctly.';
+            } else if (score >= 3) {
+                title = 'Great work!';
+                msg = 'You have a good eye for verbs. Keep practicing!';
+            } else {
+                title = 'Good try!';
+                msg = 'Review the lesson and try again. You will get better with practice.';
+            }
+
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = `You scored ${score} out of ${questions.length}. ${msg}`;
+            completionMessage.classList.add('show');
+        }
+
+        function restartActivity() {
+            current = 0;
+            score = 0;
+            resultCard.classList.remove('show');
+            completionMessage.classList.remove('show');
+            activityContent.style.display = 'block';
+            loadQuestion();
+        }
+
+        /* --- Reflection Form --- */
+
+        function getReflectionData() {
+            return {
+                q1: document.getElementById('reflect1').value.trim(),
+                q2: document.getElementById('reflect2').value.trim(),
+                q3a: document.getElementById('reflect3a').value.trim(),
+                q3b: document.getElementById('reflect3b').value.trim(),
+                q3c: document.getElementById('reflect3c').value.trim(),
+                q4: document.getElementById('reflect4').value.trim()
+            };
+        }
+
+        function submitReflection() {
+            const data = getReflectionData();
+
+            // Build receipt answers
+            const r1 = document.getElementById('receipt1');
+            const r2 = document.getElementById('receipt2');
+            const r3 = document.getElementById('receipt3');
+            const r4 = document.getElementById('receipt4');
+
+            r1.textContent = data.q1 || "No answer provided.";
+            r1.classList.toggle('empty', !data.q1);
+
+            r2.textContent = data.q2 || "No answer provided.";
+            r2.classList.toggle('empty', !data.q2);
+
+            const sentences = [
+                data.q3a || "No sentence provided.",
+                data.q3b || "No sentence provided.",
+                data.q3c || "No sentence provided."
+            ];
+            r3.innerHTML = '';
+            sentences.forEach((s, i) => {
+                const div = document.createElement('div');
+                div.className = 'receipt-sub-answer';
+                div.textContent = `Sentence ${i + 1}: ${s}`;
+                if (!s || s === "No sentence provided.") {
+                    div.classList.add('empty');
+                }
+                r3.appendChild(div);
+            });
+
+            r4.textContent = data.q4 || "No answer provided.";
+            r4.classList.toggle('empty', !data.q4);
+
+            // Swap views
+            reflectionForm.style.display = 'none';
+            receiptView.classList.add('show');
+
+            // Show the Activity Completion section
+            activityCompletion.classList.add('show');
+
+            // Scroll to the receipt
+            receiptView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function editReflection() {
+            // Preserve current answers in the editable fields (they are already there)
+            receiptView.classList.remove('show');
+            reflectionForm.style.display = 'block';
+            activityCompletion.classList.remove('show');
+            reflectionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
